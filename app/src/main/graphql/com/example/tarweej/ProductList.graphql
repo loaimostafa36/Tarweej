@@ -1,0 +1,37 @@
+query ProductList{
+  advertisements{
+    data{
+      items{
+        id
+        storeId
+        title
+        price
+        offerPrice
+        images
+        isFavorite
+        createdAt
+        store{
+          id
+          image
+          name
+          city{
+            id
+            arName
+            enName
+            createdAt
+          }
+        }
+
+
+      }
+      pageInfo{
+        page
+        limit
+      }
+
+    }
+    code
+    success
+    message
+  }
+}

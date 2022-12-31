@@ -1,0 +1,13 @@
+mutation PhoneAndEmailLogin ($input : PhoneAndEmailLoginInput!) {
+        phoneAndEmailLogin(input : $input) {
+          data {
+            id
+            email
+            verifiedPhone
+            token
+          }
+          code
+          success
+          message
+        }
+}

@@ -1,0 +1,8 @@
+mutation removeAdvertisementFromFavorite($advertisementId: String!){
+	 removeAdvertisementFromFavorite(advertisementId: $advertisementId){
+      data
+      code
+      success
+      message
+	}
+}

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Tarweej</string>
+    <string name="entry_title_sign_in">Sign In Tarweej</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
+    <string name="forget_password">Forget Password ?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="have_no_account">Have no account</string>
+    <string name="or">OR</string>
+    <string name="invalid_phone">Invalid phone</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="invalid_pass">Invalid Password</string>
+</resources>

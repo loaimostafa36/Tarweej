@@ -1,0 +1,8 @@
+mutation addAdvertisementToFavourite($advertisementId: String!){
+	 addAdvertisementToFavorite(advertisementId: $advertisementId){
+      data
+      code
+      success
+      message
+	}
+}

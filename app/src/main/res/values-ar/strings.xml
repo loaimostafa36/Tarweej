@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ترويج</string>
+    <string name="entry_title_sign_in">قم بتسجيل الدخول الي ترويج</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="phone_number">رقم الهاتف</string>
+    <string name="password">كلمة السر</string>
+    <string name="forget_password">نسيت كلمة السر؟</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="sign_up">انشاء حساب</string>
+    <string name="have_no_account">ليس لديك حساب؟</string>
+    <string name="or">او</string>
+    <string name="invalid_phone">رقم الهاتف غير صحيح</string>
+    <string name="invalid_email">ايميل غير صحيح</string>
+    <string name="invalid_pass">كلمة سر غير صحيحة</string>
+</resources>

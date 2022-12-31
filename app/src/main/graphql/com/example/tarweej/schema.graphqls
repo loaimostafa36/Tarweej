@@ -1,0 +1,3068 @@
+type SocialsType {
+  facebook: String
+
+  twitter: String
+
+  youtube: String
+
+  instagram: String
+}
+
+type City {
+  id: ID!
+
+  arName: String!
+
+  enName: String!
+
+  countryIsoCode: String!
+
+  isActive: Boolean!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+
+  localeName: String!
+
+  localeDescription: String
+
+  lat: String
+
+  long: String
+}
+
+scalar Timestamp
+
+type PageInfo {
+  page: Int
+
+  limit: Int
+
+  nextCursor: String
+
+  beforeCursor: String
+
+  hasNext: Boolean!
+
+  hasBefore: Boolean!
+
+  total: Int
+}
+
+type Notification {
+  id: ID!
+
+  type: NotificationTypeEnum!
+
+  thumbnail: String
+
+  enTitle: String!
+
+  arTitle: String!
+
+  enBody: String!
+
+  arBody: String!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+
+  localeTitle: String
+
+  localeBody: String
+
+  parent: NotificationParentUnion
+
+  sender: User
+
+  receivers: [NotificationReceiver]!
+}
+
+enum NotificationTypeEnum {
+  PUBLIC
+
+  NEW_CONTACT_MESSAGE
+
+  ROLE_UNASSIGN
+
+  NEW_ADVERTISEMENT_ADDED
+
+  ADVERTISEMENT_EDITED
+
+  NEW_ADVERTISEMENT_COMMENT_ADDED
+
+  NEW_RATE_ADDED
+
+  NEW_CHAT_MESSAGE
+
+  START_TYPING
+
+  USER_FOLLOW
+
+  ADVERTISEMENT_FOLLOW
+
+  STORE_FOLLOW
+
+  STORE_ACTIVATION
+}
+
+union NotificationParentUnion = ContactMessage|NotExistRecord|Comment|Advertisement|Rate|Message|Store
+
+type NotExistRecord {
+  notExistRecord: Boolean!
+}
+
+type NotificationManager {
+  VIA_PUSH: Boolean!
+}
+
+type NotificationReceiver {
+  receiver: User!
+
+  seenAt: Timestamp
+}
+
+type SecurityGroup {
+  id: ID!
+
+  groupName: String!
+
+  description: String
+
+  permissions: [String!]!
+
+  users: [User!]
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+}
+
+type LastLoginDetails {
+  lastLoginAt: Timestamp
+
+  readableLastLoginAt: String
+
+  lastLoginDevice: DeviceEnum
+
+  platformDetails: JSON
+}
+
+enum DeviceEnum {
+  DESKTOP
+
+  IOS
+
+  ANDROID
+}
+
+scalar JSON
+
+type usersBoardStatistics {
+  all: Int!
+
+  verifiedCount: Int!
+
+  unVerifiedCount: Int!
+}
+
+type User {
+  id: ID!
+
+  userName: String
+
+  bio: String
+
+  slug: String
+
+  email: String
+
+  gender: GenderEnum
+
+  city: City
+
+  address: String
+
+  profilePicture: String
+
+  cover: String
+
+  rate: Float!
+
+  hidePhone: Boolean!
+
+  hideLocation: Boolean!
+
+  isBlocked: Boolean!
+
+  favLang: LangEnum!
+
+  securityGroup: SecurityGroup
+
+  notificationManager: NotificationManager
+
+  token: String
+
+  lastLoginDetails: LastLoginDetails
+
+  lat: String
+
+  long: String
+
+  createdAt: Timestamp!
+
+  readableCreatedAt: String!
+
+  updatedAt: Timestamp!
+
+  readableUpdatedAt: String!
+
+  verifiedPhone: String
+
+  currentUserRate: Rate
+
+  isFollowed: Store!
+
+  followerCount: Float!
+
+  store: Store
+}
+
+enum GenderEnum {
+  MALE
+
+  FEMALE
+}
+
+enum LangEnum {
+  EN
+
+  AR
+}
+
+type Store {
+  id: ID!
+
+  cover: String
+
+  image: String!
+
+  slug: String!
+
+  name: String!
+
+  phone: String!
+
+  address: String
+
+  bio: String!
+
+  email: String!
+
+  description: String
+
+  website: String
+
+  socials: SocialsType
+
+  city: City
+
+  isActive: Boolean!
+
+  isFeatured: Boolean!
+
+  phoneClicks: Int!
+
+  isFollowed: Boolean!
+
+  chatNumber: Float!
+
+  isOwner: Boolean!
+
+  followers: Float!
+
+  rate: Float
+
+  isRate: Boolean!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+
+  user: User!
+
+  category: [Category!]!
+}
+
+type Category {
+  id: ID!
+
+  arName: String!
+
+  enName: String!
+
+  slug: String!
+
+  arDescription: String
+
+  enDescription: String
+
+  thumbnail: String!
+
+  parent: Category
+
+  childs: [Category]
+
+  isActive: Boolean!
+
+  isPopular: Boolean!
+
+  displayOrder: Int
+
+  arBanners: [String]
+
+  enBanners: [String]
+
+  keywords: String
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+
+  localeName: String!
+
+  localeDescription: String
+
+  subCategories: [Category!]!
+}
+
+type AdvertisementView {
+  id: ID!
+
+  advertisement: Advertisement!
+
+  user: User!
+}
+
+type Advertisement {
+  id: ID!
+
+  user: User
+
+  storeId: String!
+
+  title: String!
+
+  slug: String!
+
+  city: City
+
+  price: Float!
+
+  offerPrice: Float
+
+  images: [String!]!
+
+  description: String!
+
+  isFinished: Boolean!
+
+  isActive: Boolean!
+
+  isFeatured: Boolean!
+
+  numberOfViews: Int!
+
+  isFavorite: Boolean!
+
+  isFollowed: Boolean!
+
+  discount: Float!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+
+  store: Store
+
+  views: Int!
+
+  category: Category
+}
+
+type Follow {
+  id: ID!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+
+  user: User
+
+  follower: User!
+
+  advertisement: Advertisement
+
+  store: Store
+}
+
+type Rate {
+  id: ID!
+
+  rate: Float!
+
+  reason: String
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+
+  user: User!
+
+  reviewer: User!
+
+  store: Store!
+}
+
+type MessageAttachmentType {
+  url: String!
+
+  type: MessageAttachmentTypesEnum!
+}
+
+enum MessageAttachmentTypesEnum {
+  IMAGE
+
+  SOUND
+
+  Video
+
+  VideoImage
+}
+
+type Participant {
+  id: ID!
+
+  userId: ID
+
+  storeId: ID
+
+  type: ParticipantEnum!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp
+
+  store: Store
+
+  user: User
+}
+
+enum ParticipantEnum {
+  USER
+
+  STORE
+}
+
+type Message {
+  id: ID!
+
+  content: String
+
+  attachments: [MessageAttachmentType]
+
+  chatId: ID!
+
+  senderId: ID!
+
+  receiverId: ID!
+
+  messageFromTo: ChatFromToEnum
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp
+
+  sender: Participant!
+
+  receiver: Participant!
+}
+
+enum ChatFromToEnum {
+  USER_TO_STORE
+
+  STORE_TO_USER
+}
+
+type Chat {
+  id: ID!
+
+  messages: [Message]
+
+  userChats: [UserChat]
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp
+
+  unseenMessagesCount: Int
+
+  lastMessage: Message!
+}
+
+type UserChat {
+  id: ID!
+
+  userId: ID!
+
+  owner: Participant
+
+  recipientId: ID!
+
+  recipient: Participant
+
+  chat: Chat
+
+  chatId: ID!
+
+  status: ChatStatusEnum!
+
+  report: String
+
+  lastOpened: Timestamp
+
+  messageFromTo: ChatFromToEnum
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+
+  store: Store
+}
+
+enum ChatStatusEnum {
+  ACTIVE
+
+  ARCHIVED
+
+  FAVORITE
+
+  DELETED
+}
+
+type GqlStringResponse {
+  data: String
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlBooleanResponse {
+  data: Boolean
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlNumberResponse {
+  data: Float
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlDeleteResponse {
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type StoreStatisticsType {
+  followersCount: Int!
+
+  advertisementsCount: Int!
+
+  offersCount: Int!
+
+  chatCount: Int!
+
+  phoneClicks: Int!
+}
+
+type storeBoardStatistics {
+  all: Int!
+
+  active: Int!
+
+  inActive: Int!
+}
+
+type GqlStoreResponse {
+  data: Store
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlStoresPagination {
+  items: [Store]
+
+  pageInfo: PageInfo!
+}
+
+type GqlStoresResponse {
+  data: GqlStoresPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlStoreStatisticsTypeResponse {
+  data: StoreStatisticsType
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlstoreBoardStatisticsResponse {
+  data: storeBoardStatistics
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlCategoryResponse {
+  data: Category
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlCategorysPagination {
+  items: [Category]
+
+  pageInfo: PageInfo!
+}
+
+type GqlCategorysArrayResponse {
+  data: [Category]
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlCityResponse {
+  data: City
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlCitysPagination {
+  items: [City]
+
+  pageInfo: PageInfo!
+}
+
+type GqlCitysArrayResponse {
+  data: [City]
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlUserResponse {
+  data: User
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlUsersPagination {
+  items: [User]
+
+  pageInfo: PageInfo!
+}
+
+type GqlUsersResponse {
+  data: GqlUsersPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlusersBoardStatisticsResponse {
+  data: usersBoardStatistics
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type PriceRangType {
+  from: Float!
+
+  to: Float!
+}
+
+type advertisementsStatistics {
+  all: Int!
+
+  active: Int!
+
+  inActive: Int!
+
+  views: Int!
+}
+
+type GqlAdvertisementResponse {
+  data: Advertisement
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlAdvertisementsPagination {
+  items: [Advertisement]
+
+  pageInfo: PageInfo!
+}
+
+type GqlAdvertisementsResponse {
+  data: GqlAdvertisementsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlAdvertisementsArrayResponse {
+  data: [Advertisement]
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlAdvertisementViewsPagination {
+  items: [AdvertisementView]
+
+  pageInfo: PageInfo!
+}
+
+type GqlAdvertisementViewsResponse {
+  data: GqlAdvertisementViewsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlPriceRangTypeResponse {
+  data: PriceRangType
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqladvertisementsStatisticsResponse {
+  data: advertisementsStatistics
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type Advice {
+  id: ID!
+
+  arValue: String!
+
+  enValue: String!
+
+  isActive: Boolean!
+}
+
+type GqlAdviceResponse {
+  data: Advice
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlAdvicesPagination {
+  items: [Advice]
+
+  pageInfo: PageInfo!
+}
+
+type GqlAdvicesResponse {
+  data: GqlAdvicesPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type AppConfiguration {
+  id: ID!
+
+  key: String!
+
+  value: String!
+
+  displayAs: String!
+}
+
+type GqlAppConfigurationResponse {
+  data: AppConfiguration
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlAppConfigurationsArrayResponse {
+  data: [AppConfiguration]
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type Blog {
+  id: ID!
+
+  enTitle: String!
+
+  arTitle: String!
+
+  enContent: String!
+
+  arContent: String!
+
+  slug: String!
+
+  isActive: Boolean!
+
+  thumbnail: String!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+}
+
+type Comment {
+  id: ID!
+
+  user: User
+
+  advertisement: Advertisement
+
+  content: String!
+
+  byOwner: Boolean!
+
+  isActiveByOwner: Boolean!
+
+  isActiveByAdmin: Boolean!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+}
+
+type ContactMessage {
+  id: ID!
+
+  name: String!
+
+  email: String
+
+  phone: String!
+
+  contactReason: ContactReasonEnum!
+
+  message: String!
+
+  createdAt: Timestamp!
+
+  resolvedAt: Timestamp
+}
+
+enum ContactReasonEnum {
+  BUYER_COMPLAINT
+
+  STORE_COMPLAINT
+
+  PRODUCT_COMPLAINT
+
+  OTHER
+
+  COMPLAINT
+
+  TECHNICAL_ISSUE
+
+  SUGGESTION
+
+  FOR_BUSINESS
+
+  REFUND
+}
+
+type Faq {
+  id: ID!
+
+  enQuestion: String!
+
+  arQuestion: String!
+
+  enAnswer: String!
+
+  arAnswer: String!
+
+  isActive: Boolean!
+}
+
+type Job {
+  id: ID!
+
+  name: String!
+
+  email: String!
+
+  cityId: ID!
+
+  phone: String!
+
+  slug: String!
+
+  jobType: JobTypeEnum!
+
+  cv: String!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+
+  city: City!
+}
+
+enum JobTypeEnum {
+  CUSTOMER_CARE
+
+  DESIGN_UX
+
+  SOFTWARE_DEVELOPMENT
+
+  MARKETING_GROWTH
+}
+
+type Report {
+  id: ID!
+
+  reporter: User
+
+  advertisement: Advertisement
+
+  comment: Comment
+
+  user: User
+
+  type: ReportTypesEnum!
+
+  description: String!
+
+  isReviewed: Boolean!
+
+  createdAt: Timestamp!
+
+  updatedAt: Timestamp!
+}
+
+enum ReportTypesEnum {
+  FAKE_ACCOUNT
+
+  UNETHICAL
+
+  DISHONEST
+
+  MISTREATMENT
+
+  INAPPROPRIATE_ADVERTISEMENT
+
+  INAPPROPRIATE_CONTENT
+
+  VIOLENCE
+
+  FAKE_ADVERTISEMENT
+
+  HARASSMENT
+
+  SOMETHING_ELSE
+
+  INCORRECT_INFORMATION
+
+  MISMATCHED_PRODUCT
+
+  PRODUCT_QUALITY
+
+  PRICING_PROBLEM
+
+  OTHER
+}
+
+type UserStoredPaymentMethod {
+  id: ID!
+
+  registrationId: String
+
+  cardInfo: StoredCardInfo
+
+  bankInfo: StoredBankInfo
+}
+
+type PreparePaymentRes {
+  checkoutId: String!
+}
+
+type PrepareStoringPaymentMethodRes {
+  checkoutId: String!
+}
+
+type PrepareTopUpRes {
+  checkoutId: String!
+}
+
+type StoredCardInfo {
+  last4Digits: String!
+
+  expiryMonth: Int!
+
+  expiryYear: Int!
+
+  holderName: String!
+
+  paymentMethod: GatewayPaymentMethodEnum!
+
+  brand: String!
+}
+
+enum GatewayPaymentMethodEnum {
+  CREDIT_CARD
+
+  APPLE_PAY
+
+  MADA
+}
+
+type StoredBankInfo {
+  iban: String!
+
+  holderName: String!
+}
+
+type GetPaymentStatus {
+  status: PaymentStatusEnum!
+
+  message: String!
+
+  storedPaymentMethod: UserStoredPaymentMethod
+}
+
+enum PaymentStatusEnum {
+  SUCCEEDED
+
+  FAILED
+
+  PENDING
+}
+
+type GetTopUpStatus {
+  status: PaymentStatusEnum!
+
+  message: String!
+
+  storedPaymentMethod: UserStoredPaymentMethod
+}
+
+type GetStorePaymentMethodStatus {
+  status: RegistrationStatusEnum!
+
+  message: String!
+
+  storedPaymentMethod: UserStoredPaymentMethod!
+}
+
+enum RegistrationStatusEnum {
+  SUCCEEDED
+
+  FAILED
+
+  PENDED
+}
+
+type PaymentUseCase {
+  paymentMethod: PaymentMethodEnum!
+
+  paymentStatus: PaymentStatusEnum!
+
+  failureReason: String
+}
+
+enum PaymentMethodEnum {
+  USER_WALLET
+
+  HYPERPAY_CREDIT_CARD
+
+  HYPERPAY_APPLE_PAY
+
+  HYPERPAY_MADA
+}
+
+type Transaction {
+  id: ID!
+
+  amount: Float!
+
+  payment: PaymentUseCase
+
+  createdAt: Timestamp!
+
+  readableCreatedAt: String!
+
+  updatedAt: Timestamp!
+
+  readableUpdatedAt: String!
+
+  user: User
+}
+
+type Banner {
+  id: ID!
+
+  banner: String!
+
+  url: String
+
+  arDescription: String
+
+  enDescription: String
+
+  isActive: Boolean!
+
+  position: Int!
+
+  displayOrder: Int
+}
+
+type GqlMessageResponse {
+  data: Message
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlMessagesPagination {
+  items: [Message]
+
+  pageInfo: PageInfo!
+}
+
+type GqlMessagesResponse {
+  data: GqlMessagesPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlChatsPagination {
+  items: [Chat]
+
+  pageInfo: PageInfo!
+}
+
+type GqlUserChatResponse {
+  data: UserChat
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlUserChatsPagination {
+  items: [UserChat]
+
+  pageInfo: PageInfo!
+}
+
+type GqlUserChatsResponse {
+  data: GqlUserChatsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlParticipantResponse {
+  data: Participant
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlCommentResponse {
+  data: Comment
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlCommentsPagination {
+  items: [Comment]
+
+  pageInfo: PageInfo!
+}
+
+type GqlCommentsResponse {
+  data: GqlCommentsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlContactMessageResponse {
+  data: ContactMessage
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlContactMessagesPagination {
+  items: [ContactMessage]
+
+  pageInfo: PageInfo!
+}
+
+type GqlContactMessagesResponse {
+  data: GqlContactMessagesPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlFaqResponse {
+  data: Faq
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlFaqsPagination {
+  items: [Faq]
+
+  pageInfo: PageInfo!
+}
+
+type GqlFaqsResponse {
+  data: GqlFaqsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlFollowsPagination {
+  items: [Follow]
+
+  pageInfo: PageInfo!
+}
+
+type GqlFollowsResponse {
+  data: GqlFollowsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlNotificationResponse {
+  data: Notification
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlNotificationsPagination {
+  items: [Notification]
+
+  pageInfo: PageInfo!
+}
+
+type GqlNotificationsResponse {
+  data: GqlNotificationsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlRateResponse {
+  data: Rate
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlRatesPagination {
+  items: [Rate]
+
+  pageInfo: PageInfo!
+}
+
+type GqlRatesResponse {
+  data: GqlRatesPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlReportResponse {
+  data: Report
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlReportsPagination {
+  items: [Report]
+
+  pageInfo: PageInfo!
+}
+
+type GqlReportsResponse {
+  data: GqlReportsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlSecurityGroupResponse {
+  data: SecurityGroup
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlSecurityGroupsArrayResponse {
+  data: [SecurityGroup]
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlStringsArrayResponse {
+  data: [String]
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlTransactionsPagination {
+  items: [Transaction]
+
+  pageInfo: PageInfo!
+}
+
+type GqlTransactionsResponse {
+  data: GqlTransactionsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type CountryNameAnd2IsoCode {
+  localeName: String!
+
+  isoCode: String!
+}
+
+type GqlCountryNameAnd2IsoCodesArrayResponse {
+  data: [CountryNameAnd2IsoCode]
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlPreparePaymentResResponse {
+  data: PreparePaymentRes
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlGetPaymentStatusResponse {
+  data: GetPaymentStatus
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlBlogResponse {
+  data: Blog
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlBlogsPagination {
+  items: [Blog]
+
+  pageInfo: PageInfo!
+}
+
+type GqlBlogsResponse {
+  data: GqlBlogsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlJobResponse {
+  data: Job
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlJobsPagination {
+  items: [Job]
+
+  pageInfo: PageInfo!
+}
+
+type GqlJobsResponse {
+  data: GqlJobsPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlBannerResponse {
+  data: Banner
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+type GqlBannersPagination {
+  items: [Banner]
+
+  pageInfo: PageInfo!
+}
+
+type GqlBannersResponse {
+  data: GqlBannersPagination
+
+  code: Int!
+
+  success: Boolean!
+
+  message: String
+}
+
+input SocialsInput {
+  facebook: String
+
+  twitter: String
+
+  youtube: String
+
+  instagram: String
+}
+
+type Query {
+  notifications(paginate: PaginatorInput, filter: FilterNotificationsInput): GqlNotificationsResponse!
+
+  notification(notificationId: String!): GqlNotificationResponse!
+
+  unseenNotificationCount: GqlNumberResponse!
+
+  setNotificationsInSeenStatus(input: SetNotificationsInSeenStatusInput!): GqlBooleanResponse!
+
+  securityGroups: GqlSecurityGroupsArrayResponse!
+
+  securityGroup(filter: SecurityGroupFilterInput!): GqlSecurityGroupResponse!
+
+  getAllPermissions: GqlStringsArrayResponse!
+
+  me: GqlUserResponse!
+
+  isVerifiedPhoneExist(input: IsPhoneExistInput!): GqlBooleanResponse!
+
+  isUserWithVerificationCodeExist(input: IsUserWithVerificationCodeExistInput!): GqlBooleanResponse!
+
+  usersBoard(paginate: PaginatorInput, filter: UsersBoardFilter): GqlUsersResponse!
+
+  userBoardStatistics: GqlusersBoardStatisticsResponse!
+
+  userBoard(userId: String!): GqlUserResponse!
+
+  user(userId: String!): GqlUserResponse!
+
+  userBySlug(slug: String!): GqlUserResponse!
+
+  cities(filter: CitiesUserFilter!): GqlCitysArrayResponse!
+
+  citiesBoard(filter: CitiesBoardFilter!): GqlCitysArrayResponse!
+
+  termsAndConditions: GqlStringResponse!
+
+  treatmentConsent: GqlStringResponse!
+
+  appConfigurationBoard(input: AppConfigurationInput!): GqlAppConfigurationResponse!
+
+  appConfigurationsBoard: GqlAppConfigurationsArrayResponse!
+
+  appConfigurations(filter: AppConfigurationFilter): GqlAppConfigurationsArrayResponse!
+
+  appConfiguration(key: String!): GqlAppConfigurationResponse!
+
+  countries: GqlCountryNameAnd2IsoCodesArrayResponse!
+
+  contactMessageBoard(contactMessageId: String!): GqlContactMessageResponse!
+
+  contactMessagesBoard(paginate: PaginatorInput, filter: ContactMessageFilter): GqlContactMessagesResponse!
+
+  faqBoard(faqId: String!): GqlFaqResponse!
+
+  faqsBoard(paginate: PaginatorInput, filter: FaqFilterBoard): GqlFaqsResponse!
+
+  faqs(paginate: PaginatorInput, filter: FaqsFilter): GqlFaqsResponse!
+
+  getPaymentStatus(input: GetPaymentStatusInput!): GqlGetPaymentStatusResponse!
+
+  transactionsBoard(paginate: PaginatorInput, filter: TransactionsBoardFilter): GqlTransactionsResponse!
+
+  successfulTransactionTotalAmount: GqlNumberResponse!
+
+  sections(searchKey: String): GqlCategorysArrayResponse!
+
+  sectionBySlug(slug: String): GqlCategoryResponse!
+
+  categoriesBySection(filter: CategoryUserFilter): GqlCategorysArrayResponse!
+
+  sub_Categories(filter: CategoryUserFilter): GqlCategorysArrayResponse!
+
+  sections_Board(searchKey: String): GqlCategorysArrayResponse!
+
+  categories_board(filter: CategoryBoardFilter): GqlCategorysArrayResponse!
+
+  advertisements(paginate: PaginatorInput, filter: AdvertisementFilter): GqlAdvertisementsResponse!
+
+  randomAdvertisements: GqlAdvertisementsResponse!
+
+  advertisementsBoard(paginate: PaginatorInput, filter: AdvertisementBoardFilter): GqlAdvertisementsResponse!
+
+  advertisementById(advertisementId: String!): GqlAdvertisementResponse!
+
+  advertisementByIdBoard(advertisementId: String!): GqlAdvertisementResponse!
+
+  advertisementBySlug(slug: String!): GqlAdvertisementResponse!
+
+  advertisementBySlugBoard(slug: String!): GqlAdvertisementResponse!
+
+  advertisementStatistics: GqladvertisementsStatisticsResponse!
+
+  myAdvertisements(paginate: PaginatorInput, filter: MyAdvertisementFilter): GqlAdvertisementsResponse!
+
+  myFavoriteAdvertisements(paginate: PaginatorInput, filter: MyFavoriteAdvertisementFilter): GqlAdvertisementsResponse!
+
+  relatedAdvertisements(advertisementId: String!): GqlAdvertisementsArrayResponse!
+
+  advertisementViewCount(advertisementId: String!): GqlNumberResponse!
+
+  totalAdvertisementsViewCount: GqlNumberResponse!
+
+  priceRang: GqlPriceRangTypeResponse!
+
+  recentlyViewedAdvertisements(paginate: PaginatorInput): GqlAdvertisementViewsResponse!
+
+  comments(paginate: PaginatorInput, filter: CommentsFilter!): GqlCommentsResponse!
+
+  myFollows(paginate: PaginatorInput): GqlFollowsResponse!
+
+  myFollowingAdvertisements(paginate: PaginatorInput): GqlFollowsResponse!
+
+  myFollowingStores(paginate: PaginatorInput): GqlFollowsResponse!
+
+  myFollowingUsers(paginate: PaginatorInput): GqlFollowsResponse!
+
+  storeById(storeId: String!): GqlStoreResponse!
+
+  storeBoardStatistics: GqlstoreBoardStatisticsResponse!
+
+  storeBySlug(slug: String!): GqlStoreResponse!
+
+  stores(paginate: PaginatorInput, filter: StoreFilter): GqlStoresResponse!
+
+  getMyStoreStatistics: GqlStoreStatisticsTypeResponse!
+
+  StoreStatisticsBoard(storeId: String!): GqlStoreStatisticsTypeResponse!
+
+  userRates(paginate: PaginatorInput, userId: String!): GqlRatesResponse!
+
+  MyRates(paginate: PaginatorInput): GqlRatesResponse!
+
+  storeRates(paginate: PaginatorInput, filter: StoreRateFilterInput): GqlRatesResponse!
+
+  findChat(input: FindChatInput!): GqlUserChatResponse!
+
+  userInbox(input: UserInboxInput!, paginate: PaginatorInput): GqlUserChatsResponse!
+
+  unreadChatsCount(input: UnreadChatsCountInput!): GqlNumberResponse!
+
+  startTyping(input: ChatTypingInput!): GqlBooleanResponse!
+
+  findChatMessagesByParticipant(input: FindChatMessagesByParticipantInput!): GqlMessagesResponse!
+
+  advices(paginate: PaginatorInput, filter: AdvicesFilter): GqlAdvicesResponse!
+
+  randomAdvice: GqlAdviceResponse!
+
+  reportsBoard(paginate: PaginatorInput, filter: ReportsBoardFilter): GqlReportsResponse!
+
+  reportByIdBoard(reportId: String!): GqlReportResponse!
+
+  blogBoard(blogId: ID!): GqlBlogResponse!
+
+  blogsBoard(paginate: PaginatorInput, filter: BlogsFilterBoard): GqlBlogsResponse!
+
+  blogs(paginate: PaginatorInput, filter: BlogsFilter): GqlBlogsResponse!
+
+  blogBySlug(slug: String!): GqlBlogResponse!
+
+  jobBoard(jobId: ID!): GqlJobResponse!
+
+  jobsBoard(paginate: PaginatorInput, filter: JobFilter): GqlJobsResponse!
+
+  bannersBoard(paginate: PaginatorInput): GqlBannersResponse!
+
+  bannerBoard(bannerId: String!): GqlBannerResponse!
+
+  banners(paginate: PaginatorInput): GqlBannersResponse!
+}
+
+input PaginatorInput {
+  page: Float = 1
+
+  limit: Float = 15
+}
+
+input FilterNotificationsInput {
+  searchKey: String
+}
+
+input SetNotificationsInSeenStatusInput {
+  notificationIds: [String!]!
+}
+
+input SecurityGroupFilterInput {
+  groupName: String
+
+  securityGroupId: String
+}
+
+input IsPhoneExistInput {
+  phone: String!
+
+  userRole: UserRoleEnum!
+}
+
+enum UserRoleEnum {
+  RESEARCHER
+
+  MANAGER
+}
+
+input IsUserWithVerificationCodeExistInput {
+  phone: String!
+
+  code: String!
+
+  useCase: UserVerificationCodeUseCaseEnum!
+}
+
+enum UserVerificationCodeUseCaseEnum {
+  PASSWORD_RESET
+
+  PHONE_VERIFICATION
+
+  EMAIL_VERIFICATION
+}
+
+input UsersBoardFilter {
+  searchKey: String
+
+  isBlocked: Boolean
+
+  securityGroupId: String
+
+  duration: UserDurationInput
+}
+
+input UserDurationInput {
+  fromIntTimeStamp: Timestamp
+
+  toIntTimeStamp: Timestamp
+}
+
+input CitiesUserFilter {
+  countryIsoCode: String!
+}
+
+input CitiesBoardFilter {
+  countryIsoCode: String
+
+  isActive: Boolean
+}
+
+input AppConfigurationInput {
+  key: String
+
+  appConfigurationId: ID
+}
+
+input AppConfigurationFilter {
+  searchKey: String
+}
+
+input ContactMessageFilter {
+  searchKey: String
+
+  isResolved: Boolean
+
+  contactReason: ContactReasonEnum
+
+  duration: ContactDurationInput
+}
+
+input ContactDurationInput {
+  fromIntTimeStamp: Timestamp
+
+  toIntTimeStamp: Timestamp
+}
+
+input FaqFilterBoard {
+  searchKey: String
+
+  isActive: Boolean
+}
+
+input FaqsFilter {
+  searchKey: String
+}
+
+input GetPaymentStatusInput {
+  checkoutId: String!
+}
+
+input TransactionsBoardFilter {
+  userId: String
+
+  status: PaymentStatusEnum
+}
+
+input CategoryUserFilter {
+  parentId: String
+
+  searchKey: String
+}
+
+input CategoryBoardFilter {
+  parentId: String
+
+  isActive: Boolean
+
+  searchKey: String
+}
+
+input AdvertisementFilter {
+  searchKey: String
+
+  categoryId: String
+
+  cityId: String
+
+  storeId: String
+
+  userId: String
+
+  avoidRepetition: Boolean
+
+  priceRange: FilterPriceRange
+
+  offers: Boolean
+
+  isActive: Boolean
+
+  isFeatured: Boolean
+
+  sort: AdvertisementSortEnum
+
+  duration: AdvertisementDurationInput
+}
+
+input FilterPriceRange {
+  from: Float!
+
+  to: Float!
+}
+
+enum AdvertisementSortEnum {
+  NEWEST
+
+  NEAREST
+
+  STORE_MOST_VIEWED
+
+  MOST_VIEWED
+
+  FOLLOWING_STORES
+}
+
+input AdvertisementDurationInput {
+  fromIntTimeStamp: Timestamp
+
+  toIntTimeStamp: Timestamp
+}
+
+input AdvertisementBoardFilter {
+  searchKey: String
+
+  categoryId: String
+
+  cityId: String
+
+  sort: AdvertisementSortEnum
+
+  isFinished: Boolean
+
+  isActive: Boolean
+
+  userId: String
+
+  storeId: String
+
+  duration: AdvertisementDurationInput
+}
+
+input MyAdvertisementFilter {
+  searchKey: String
+
+  isFinished: Boolean
+}
+
+input MyFavoriteAdvertisementFilter {
+  searchKey: String
+}
+
+input CommentsFilter {
+  advertisementId: String!
+}
+
+input StoreFilter {
+  storeId: ID
+
+  categoryId: ID
+
+  isActive: Boolean
+
+  isFeatured: Boolean
+
+  searchKey: String
+
+  duration: StoreDurationInput
+
+  cityId: String
+}
+
+input StoreDurationInput {
+  fromIntTimeStamp: Timestamp
+
+  toIntTimeStamp: Timestamp
+}
+
+input StoreRateFilterInput {
+  storeId: String
+
+  userId: String
+}
+
+input FindChatInput {
+  chatId: ID!
+
+  currentUserAs: TokenAsEnum!
+}
+
+enum TokenAsEnum {
+  USER
+
+  Store
+}
+
+input UserInboxInput {
+  status: [ChatStatusInputEnum]
+
+  searchKey: String
+
+  currentUserAs: TokenAsEnum!
+}
+
+enum ChatStatusInputEnum {
+  ACTIVE
+
+  ARCHIVED
+
+  FAVORITE
+}
+
+input UnreadChatsCountInput {
+  currentUserAs: TokenAsEnum!
+}
+
+input ChatTypingInput {
+  recipientId: String!
+
+  typingStatus: TypingStatusEnum!
+
+  currentUserAs: TokenAsEnum!
+}
+
+enum TypingStatusEnum {
+  STARTED
+
+  STOPPED
+}
+
+input FindChatMessagesByParticipantInput {
+  paginate: PaginatorInput
+
+  recipientId: ID!
+
+  currentUserAs: TokenAsEnum!
+}
+
+input AdvicesFilter {
+  searchKey: String
+}
+
+input ReportsBoardFilter {
+  isReviewed: Boolean
+
+  reportModel: ReportModelsEnum
+
+  duration: ReportDurationInput
+}
+
+enum ReportModelsEnum {
+  USER
+
+  ADVERTISEMENT
+
+  COMMENT
+}
+
+input ReportDurationInput {
+  fromIntTimeStamp: Timestamp
+
+  toIntTimeStamp: Timestamp
+}
+
+input BlogsFilterBoard {
+  searchKey: String
+
+  isActive: Boolean
+}
+
+input BlogsFilter {
+  searchKey: String
+}
+
+input JobFilter {
+  searchKey: String
+
+  jobType: JobTypeEnum
+
+  cityId: ID
+}
+
+type Mutation {
+  uploadFile(file: Upload!, model: FileModelEnum!): GqlStringResponse!
+
+  deleteNotification(notificationId: String!): GqlBooleanResponse!
+
+  deleteNotifications: GqlBooleanResponse!
+
+  sendNotificationBoard(input: SendNotificationBoardInput!): GqlBooleanResponse!
+
+  createSecurityGroup(input: CreateSecurityGroupInput!): GqlSecurityGroupResponse!
+
+  updateSecurityGroup(input: UpdateSecurityGroupInput!): GqlSecurityGroupResponse!
+
+  deleteSecurityGroup(securityGroupId: String!): GqlSecurityGroupResponse!
+
+  assignSecurityGroupToUsers(input: AssignSecurityGroupToUsersInput!): GqlSecurityGroupResponse!
+
+  register(input: RegisterInput!): GqlUserResponse!
+
+  phoneAndEmailLogin(input: PhoneAndEmailLoginInput!): GqlUserResponse!
+
+  emailAndPasswordLoginBoard(input: EmailAndPasswordLoginForBoardInput!): GqlUserResponse!
+
+  sendPhoneVerificationCode(input: SendPhoneVerificationCodeInput!): GqlBooleanResponse!
+
+  resetPasswordByPhone(input: ResetPasswordByPhoneInput!): GqlUserResponse!
+
+  verifyUserByPhone(input: VerifyUserByPhoneInput!): GqlUserResponse!
+
+  logout(device: DeviceEnum!): GqlBooleanResponse!
+
+  updateFcmToken(fcmToken: String!, device: DeviceEnum!): GqlBooleanResponse!
+
+  setLastActiveDetails(input: SetLastActiveDetailsInput!): GqlUserResponse!
+
+  socialLoginOrRegister(input: RegisterOrLoginBySocialAccountInput!): GqlUserResponse!
+
+  seedAdmin: GqlBooleanResponse!
+
+  updateProfile(input: UpdateUserProfileInput!): GqlUserResponse!
+
+  updateUserBoard(input: UpdateUserBoardInput!): GqlUserResponse!
+
+  updateUserPhone(input: UpdateUserProfilePhoneInput!): GqlUserResponse!
+
+  changePassword(input: ChangePasswordInput!): GqlUserResponse!
+
+  deleteAccount(password: String!): GqlBooleanResponse!
+
+  createCity(input: CreateCityInput!): GqlCityResponse!
+
+  updateCity(input: UpdateCityInput!): GqlCityResponse!
+
+  createAppConfigurationBoard(input: CreateAppConfigurationInput!): GqlAppConfigurationResponse!
+
+  updateAppConfigurationBoard(input: UpdateAppConfigurationInput!): GqlAppConfigurationResponse!
+
+  createContactMessage(input: CreateContactMessageInput!): GqlContactMessageResponse!
+
+  replyContactMessage(input: ReplyContactMessageInput!): GqlContactMessageResponse!
+
+  resolveOrUnResolveContactMessageBoard(contactMessageId: String!): GqlContactMessageResponse!
+
+  deleteContactMessageBoard(contactMessageId: String!): GqlBooleanResponse!
+
+  createFaqBoard(input: CreateFaqInput!): GqlFaqResponse!
+
+  updateFaqBoard(input: UpdateFaqInput!): GqlFaqResponse!
+
+  deleteFaqBoard(faqId: String!): GqlBooleanResponse!
+
+  preparePayment(input: PreparePaymentInput!): GqlPreparePaymentResResponse!
+
+  createCategory(input: CreateCategoryInput!): GqlCategoryResponse!
+
+  updateCategory(input: UpdateCategoryInput!): GqlCategoryResponse!
+
+  createAdvertisement(input: CreateAdvertisementInput!): GqlAdvertisementResponse!
+
+  updateAdvertisement(input: UpdateAdvertisementInput!): GqlAdvertisementResponse!
+
+  updateAdvertisementBoard(input: UpdateAdvertisementBoardInput!): GqlAdvertisementResponse!
+
+  deleteAdvertisement(advertisementId: String!): GqlBooleanResponse!
+
+  deleteAdvertisementBoard(advertisementId: String!): GqlBooleanResponse!
+
+  activeInActiveAdvertisement(advertisementId: String!): GqlAdvertisementResponse!
+
+  changeAdvertisementStatus(advertisementId: String!): GqlAdvertisementResponse!
+
+  addAdvertisementToFavorite(advertisementId: String!): GqlBooleanResponse!
+
+  removeAdvertisementFromFavorite(advertisementId: String!): GqlBooleanResponse!
+
+  createComment(input: CreateCommentInput!): GqlCommentResponse!
+
+  hideCommentByAdvertisementOwner(commentId: String!): GqlCommentResponse!
+
+  hideCommentByAdmin(commentId: String!): GqlCommentResponse!
+
+  deleteComment(commentId: String!): GqlBooleanResponse!
+
+  updateComment(input: UpdateCommentInput!): GqlCommentResponse!
+
+  followUser(userId: String!): GqlBooleanResponse!
+
+  unfollowUser(userId: String!): GqlBooleanResponse!
+
+  followAdvertisement(advertisementId: String!): GqlBooleanResponse!
+
+  unfollowAdvertisement(advertisementId: String!): GqlBooleanResponse!
+
+  followStore(storeId: String!): GqlBooleanResponse!
+
+  unfollowStore(storeId: String!): GqlBooleanResponse!
+
+  createStore(input: CreateStoreInput!): GqlStoreResponse!
+
+  updateStore(input: UpdateStoreInput!): GqlStoreResponse!
+
+  activeOrDisActiveStore(storeId: String!): GqlStoreResponse!
+
+  changeStoreFeature(storeId: String!): GqlStoreResponse!
+
+  deleteStore(storeId: String!): GqlDeleteResponse!
+
+  updatePhoneClicks(storeId: String!): GqlBooleanResponse!
+
+  rateUser(input: RateUserInput!): GqlRateResponse!
+
+  updateRate(input: UpdateRateInput!): GqlRateResponse!
+
+  rateStore(input: RateStoreInput!): GqlRateResponse!
+
+  deleteRate(rateId: String!): GqlBooleanResponse!
+
+  changeChatStatus(input: ChangeChatStatusInput!): GqlUserChatResponse!
+
+  sendMessage(input: SendMessageInput!): GqlMessageResponse!
+
+  createParticipant(input: CreateParticipantInput!): GqlParticipantResponse!
+
+  createAdvice(input: CreateAdviceInput!): GqlAdviceResponse!
+
+  updateAdvice(input: UpdateAdviceInput!): GqlAdviceResponse!
+
+  reportAdvertisement(input: CreateAdvertisementReportInput!): GqlReportResponse!
+
+  reportComment(input: CreateCommentReportInput!): GqlReportResponse!
+
+  reportUser(input: CreateUserReportInput!): GqlReportResponse!
+
+  createBlogBoard(input: CreateBlogInput!): GqlBlogResponse!
+
+  updateBlogBoard(input: UpdateBlogInput!): GqlBlogResponse!
+
+  deleteBlogBoard(blogId: ID!): GqlDeleteResponse!
+
+  createJob(input: CreateJobInput!): GqlJobResponse!
+
+  updateJobBoard(input: UpdateJobInput!): GqlJobResponse!
+
+  deleteJobBoard(jobId: ID!): GqlDeleteResponse!
+
+  createBanner(input: CreateBannerInput!): GqlBannerResponse!
+
+  updateBanner(input: UpdateBannerInput!): GqlBannerResponse!
+
+  deleteBanner(bannerId: String!): GqlBooleanResponse!
+}
+
+"""
+Upload custom scalar type
+"""
+scalar Upload
+
+enum FileModelEnum {
+  USERS
+
+  PROFILE_PICTURE
+
+  PROFILE_COVER
+
+  CATEGORY
+
+  CHAT
+
+  ADVERTISEMENT
+
+  STORE
+
+  BLOG
+
+  CV
+}
+
+input SendNotificationBoardInput {
+  usersIds: [String]
+
+  enTitle: String!
+
+  arTitle: String!
+
+  enBody: String!
+
+  arBody: String!
+
+  userType: SendNotificationBoardTypeEnum!
+}
+
+enum SendNotificationBoardTypeEnum {
+  ALL_USERS
+
+  SPECIFIC_USERS
+}
+
+input CreateSecurityGroupInput {
+  groupName: String!
+
+  description: String
+
+  permissions: [String!]!
+}
+
+input UpdateSecurityGroupInput {
+  securityGroupId: String!
+
+  groupName: String
+
+  description: String
+
+  permissions: [String]
+}
+
+input AssignSecurityGroupToUsersInput {
+  securityGroupId: String!
+
+  assignedUsersIds: [String!]!
+
+  unassignedUsersIds: [String!]!
+}
+
+input RegisterInput {
+  userName: String!
+
+  email: String
+
+  phone: String!
+
+  password: String!
+
+  fcmToken: String
+
+  device: DeviceEnum = ANDROID
+
+  platformDetails: JSON
+}
+
+input PhoneAndEmailLoginInput {
+  phone: String
+
+  email: String
+
+  password: String!
+
+  fcmToken: String
+
+  device: DeviceEnum!
+
+  platformDetails: JSON
+
+  long: Float
+
+  lat: Float
+}
+
+input EmailAndPasswordLoginForBoardInput {
+  email: String!
+
+  password: String!
+
+  fcmToken: String
+
+  device: DeviceEnum!
+}
+
+input SendPhoneVerificationCodeInput {
+  verifiedPhone: String!
+
+  useCase: UserVerificationCodeUseCaseEnum!
+}
+
+input ResetPasswordByPhoneInput {
+  phone: String!
+
+  code: String!
+
+  newPassword: String!
+}
+
+input VerifyUserByPhoneInput {
+  phone: String!
+
+  verificationCode: String!
+}
+
+input SetLastActiveDetailsInput {
+  device: DeviceEnum!
+
+  lang: LangEnum!
+
+  platformDetails: String
+}
+
+input RegisterOrLoginBySocialAccountInput {
+  providerId: String!
+
+  provider: SocialProvidersEnum!
+
+  userName: String
+
+  email: String
+
+  birthDate: Timestamp
+
+  phone: String
+
+  fcmToken: String
+
+  long: Float
+
+  lat: Float
+
+  device: DeviceEnum!
+
+  country: String
+
+  platformDetails: JSON
+
+  address: String
+}
+
+enum SocialProvidersEnum {
+  FACEBOOK
+
+  TWITTER
+
+  GOOGLE
+
+  APPLE
+}
+
+input UpdateUserProfileInput {
+  userName: String
+
+  email: String
+
+  phone: String
+
+  bio: String
+
+  cityId: String
+
+  address: String
+
+  profilePicture: String
+
+  cover: String
+
+  hidePhone: Boolean
+
+  hideLocation: Boolean
+}
+
+input UpdateUserBoardInput {
+  userId: String!
+
+  userName: String
+
+  email: String
+
+  bio: String
+
+  cityId: String
+
+  address: String
+
+  profilePicture: String
+
+  cover: String
+
+  hidePhone: Boolean
+
+  hideLocation: Boolean
+}
+
+input UpdateUserProfilePhoneInput {
+  userId: String!
+
+  phone: String!
+}
+
+input ChangePasswordInput {
+  oldPassword: String!
+
+  newPassword: String!
+
+  confirmPassword: String!
+}
+
+input CreateCityInput {
+  arName: String!
+
+  enName: String!
+
+  countryIsoCode: String!
+
+  long: Float
+
+  lat: Float
+}
+
+input UpdateCityInput {
+  cityId: String!
+
+  arName: String
+
+  enName: String
+
+  countryIsoCode: String
+
+  long: Float
+
+  lat: Float
+
+  isActive: Boolean
+}
+
+input CreateAppConfigurationInput {
+  key: String!
+
+  value: String!
+
+  displayAs: String!
+}
+
+input UpdateAppConfigurationInput {
+  appConfigurationId: ID!
+
+  key: String
+
+  value: String
+
+  displayAs: String
+}
+
+input CreateContactMessageInput {
+  name: String!
+
+  email: String
+
+  phone: String!
+
+  contactReason: ContactReasonEnum!
+
+  message: String!
+}
+
+input ReplyContactMessageInput {
+  contactMessageId: String!
+
+  content: String!
+}
+
+input CreateFaqInput {
+  enQuestion: String!
+
+  arQuestion: String!
+
+  enAnswer: String!
+
+  arAnswer: String!
+}
+
+input UpdateFaqInput {
+  faqId: ID!
+
+  enQuestion: String
+
+  arQuestion: String
+
+  enAnswer: String
+
+  arAnswer: String
+
+  isActive: Boolean
+}
+
+input PreparePaymentInput {
+  amount: Float!
+
+  paymentMethod: GatewayPaymentMethodEnum!
+}
+
+input CreateCategoryInput {
+  arName: String!
+
+  enName: String!
+
+  arDescription: String
+
+  enDescription: String
+
+  thumbnail: String
+
+  parentId: String
+
+  displayOrder: Int!
+
+  arBanners: [String]
+
+  enBanners: [String]
+
+  keywords: String
+}
+
+input UpdateCategoryInput {
+  categoryId: String!
+
+  arName: String
+
+  enName: String
+
+  arDescription: String
+
+  enDescription: String
+
+  parentId: String
+
+  displayOrder: Int
+
+  thumbnail: String
+
+  isActive: Boolean
+
+  isPopular: Boolean
+
+  arBanners: [String]
+
+  enBanners: [String]
+
+  keywords: String
+}
+
+input CreateAdvertisementInput {
+  categoryId: String!
+
+  storeId: String!
+
+  title: String!
+
+  cityId: String!
+
+  price: Float!
+
+  offerPrice: Float
+
+  images: [String!]!
+
+  description: String!
+
+  hidePhone: Boolean
+}
+
+input UpdateAdvertisementInput {
+  advertisementId: String!
+
+  title: String
+
+  categoryId: String
+
+  cityId: String
+
+  price: Float
+
+  offerPrice: Float
+
+  images: [String]
+
+  description: String
+
+  hidePhone: Boolean
+
+  isActive: Boolean
+}
+
+input UpdateAdvertisementBoardInput {
+  advertisementId: String!
+
+  title: String
+
+  categoryId: String
+
+  cityId: String
+
+  price: Float
+
+  offerPrice: Float
+
+  images: [String]
+
+  description: String
+
+  hidePhone: Boolean
+
+  isActive: Boolean
+}
+
+input CreateCommentInput {
+  advertisementId: String!
+
+  content: String!
+}
+
+input UpdateCommentInput {
+  commentId: String!
+
+  content: String!
+}
+
+input CreateStoreInput {
+  cover: String
+
+  image: String!
+
+  name: String!
+
+  phone: String!
+
+  email: String!
+
+  cityId: String!
+
+  address: String
+
+  bio: String!
+
+  categoryIds: [ID!]!
+}
+
+input UpdateStoreInput {
+  storeId: ID!
+
+  cover: String
+
+  image: String
+
+  name: String
+
+  phone: String
+
+  email: String
+
+  cityId: String
+
+  address: String
+
+  bio: String
+
+  categoryIds: [ID!]!
+
+  description: String
+
+  website: String
+
+  socials: SocialsInput
+}
+
+input RateUserInput {
+  userId: ID!
+
+  rate: Float!
+
+  reason: String
+}
+
+input UpdateRateInput {
+  rateId: ID!
+
+  rate: Float
+
+  reason: String
+}
+
+input RateStoreInput {
+  storeId: ID!
+
+  rate: Float!
+
+  reason: String
+}
+
+input ChangeChatStatusInput {
+  id: ID!
+
+  chatStatus: ChatStatusEnum!
+
+  currentUserAs: TokenAsEnum!
+}
+
+input SendMessageInput {
+  receiverId: ID!
+
+  attachments: [MessageAttachmentTypeInput]
+
+  content: String
+}
+
+input MessageAttachmentTypeInput {
+  url: String!
+
+  type: MessageAttachmentTypesEnum!
+}
+
+input CreateParticipantInput {
+  id: ID!
+}
+
+input CreateAdviceInput {
+  arValue: String!
+
+  enValue: String!
+}
+
+input UpdateAdviceInput {
+  adviceId: ID!
+
+  arValue: String!
+
+  enValue: String!
+
+  isActive: Boolean
+}
+
+input CreateAdvertisementReportInput {
+  advertisementId: String!
+
+  type: AdvertisementReportTypesEnum!
+
+  description: String!
+}
+
+enum AdvertisementReportTypesEnum {
+  INCORRECT_INFORMATION
+
+  MISMATCHED_PRODUCT
+
+  PRODUCT_QUALITY
+
+  PRICING_PROBLEM
+
+  OTHER
+}
+
+input CreateCommentReportInput {
+  commentId: String!
+
+  type: CommentReportTypesEnum!
+
+  description: String!
+}
+
+enum CommentReportTypesEnum {
+  INAPPROPRIATE_CONTENT
+
+  VIOLENCE
+
+  SOMETHING_ELSE
+}
+
+input CreateUserReportInput {
+  userId: String!
+
+  type: UserReportTypesEnum!
+
+  description: String!
+}
+
+enum UserReportTypesEnum {
+  FAKE_ACCOUNT
+
+  UNETHICAL
+
+  DISHONEST
+
+  MISTREATMENT
+
+  INAPPROPRIATE_ADVERTISEMENT
+
+  SOMETHING_ELSE
+}
+
+input CreateBlogInput {
+  enContent: String!
+
+  arContent: String!
+
+  thumbnail: String!
+
+  isActive: Boolean!
+
+  enTitle: String!
+
+  arTitle: String!
+}
+
+input UpdateBlogInput {
+  blogId: ID!
+
+  enTitle: String
+
+  arTitle: String
+
+  enContent: String
+
+  thumbnail: String
+
+  arContent: String
+
+  isActive: Boolean
+}
+
+input CreateJobInput {
+  name: String!
+
+  email: String!
+
+  cityId: ID!
+
+  phone: String!
+
+  jobType: JobTypeEnum!
+
+  cv: String!
+}
+
+input UpdateJobInput {
+  jobId: ID!
+
+  name: String
+
+  email: String
+
+  cityId: ID
+
+  phone: String
+
+  jobType: JobTypeEnum
+
+  cv: String
+}
+
+input CreateBannerInput {
+  banner: String!
+
+  url: String
+
+  arDescription: String
+
+  enDescription: String
+
+  position: Int
+
+  isActive: Boolean
+
+  displayOrder: Int!
+}
+
+input UpdateBannerInput {
+  bannerId: ID!
+
+  url: String
+
+  banner: String
+
+  arDescription: String
+
+  enDescription: String
+
+  position: Int
+
+  isActive: Boolean
+
+  displayOrder: Int
+}
+
+type Subscription {
+  typingStatusChanged(input: StartTypingSubscriptionInput!): GqlBooleanResponse!
+
+  newMessageReceived(input: NewMessageInput!): GqlMessageResponse!
+}
+
+input StartTypingSubscriptionInput {
+  recipientId: String!
+}
+
+input NewMessageInput {
+  senderId: String!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
